@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<IsPackable>true</IsPackable>
-		<OutputType>WinExe</OutputType>
+		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
 	<ItemGroup>

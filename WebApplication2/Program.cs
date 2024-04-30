@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using Owin;
-using Microsoft.Owin.Hosting;
 using System.Web.Routing;
 
 namespace WebApplication2
@@ -10,31 +8,39 @@ namespace WebApplication2
     {
         public static void Main(string[] args)
         {
-            string url = "http://localhost:8000";
+            MvcApplication app = new MvcApplication();
+            app.ConfigureRoutes();
 
-            using (WebApp.Start(url, Configuration))
-            {
-                Console.WriteLine($"Server running at {url}");
-                Console.WriteLine("Press any key to stop...");
-                Console.ReadKey();
-            }
+            app.Run();
+        }
+    }
+
+    public class MvcApplication
+    {
+        private readonly System.Web.Routing.RouteCollection _routes;
+
+        public MvcApplication()
+        {
+            _routes = new System.Web.Routing.RouteCollection();
         }
 
-        public static void Configuration(IAppBuilder app)
+        public void ConfigureRoutes()
         {
-            ConfigureMvc(app);
-        }
+            _routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-        private static void ConfigureMvc(IAppBuilder app)
-        {
-            var routes = RouteTable.Routes;
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapRoute(
-                name: "Default",
+            _routes.MapRoute(
+                name: "default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Patient", action = "Index", id = UrlParameter.Optional }
             );
+        }
+
+        public void Run()
+        {
+            foreach (System.Web.Routing.RouteBase route in _routes)
+            {
+                RouteTable.Routes.Add(route);
+            }
         }
     }
 }
