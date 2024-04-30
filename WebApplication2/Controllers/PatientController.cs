@@ -1,9 +1,7 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using WebApplication2.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using System.Web.Mvc;
+using WebApplication2.Models; 
 
 namespace WebApplication2.Controllers
 {
@@ -11,8 +9,8 @@ namespace WebApplication2.Controllers
     {
         private static List<Patient> _patients = new List<Patient>
         {
-            new Patient { Id = 1, Name = "Bob Bdgk" },
-            new Patient { Id = 2, Name = "Kate Nldmgl" }
+            new Patient { Id = 1, Name = "Иван Иванов" },
+            new Patient { Id = 2, Name = "Петр Петров" }
         };
 
         public ActionResult Index()
@@ -41,7 +39,7 @@ namespace WebApplication2.Controllers
         {
             var patient = _patients.FirstOrDefault(p => p.Id == id);
             if (patient == null)
-                return NotFound(); 
+                return HttpNotFound();
             return View(patient);
         }
 
@@ -50,7 +48,7 @@ namespace WebApplication2.Controllers
         {
             var existingPatient = _patients.FirstOrDefault(p => p.Id == patient.Id);
             if (existingPatient == null)
-                return NotFound(); 
+                return HttpNotFound();
             existingPatient.Name = patient.Name;
             return RedirectToAction("Index");
         }
@@ -60,7 +58,7 @@ namespace WebApplication2.Controllers
         {
             var patient = _patients.FirstOrDefault(p => p.Id == id);
             if (patient == null)
-                return NotFound(); 
+                return HttpNotFound();
             _patients.Remove(patient);
             return RedirectToAction("Index");
         }

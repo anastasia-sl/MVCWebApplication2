@@ -1,27 +1,40 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿using System;
+using System.Web.Mvc;
+using Owin;
+using Microsoft.Owin.Hosting;
+using System.Web.Routing;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+namespace WebApplication2
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            string url = "http://localhost:8000";
+
+            using (WebApp.Start(url, Configuration))
+            {
+                Console.WriteLine($"Server running at {url}");
+                Console.WriteLine("Press any key to stop...");
+                Console.ReadKey();
+            }
+        }
+
+        public static void Configuration(IAppBuilder app)
+        {
+            ConfigureMvc(app);
+        }
+
+        private static void ConfigureMvc(IAppBuilder app)
+        {
+            var routes = RouteTable.Routes;
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Patient", action = "Index", id = UrlParameter.Optional }
+            );
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Patient}/{action=Index}/{id?}");
-
-app.Run();
