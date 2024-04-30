@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication2.Models.Patient>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Action</th>
+            <a asp-action="Create">Add New Patient</a>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model)
+        {
+            <tr>
+                <td>@patient.Id</td>
+                <td>@patient.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@patient.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@patient.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
