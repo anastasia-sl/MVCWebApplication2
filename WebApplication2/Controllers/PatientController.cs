@@ -11,8 +11,8 @@ namespace WebApplication2.Controllers
     {
         private static List<Patient> _patients = new List<Patient>
         {
-            new Patient { Id = 1, Name = "Иван Иванов" },
-            new Patient { Id = 2, Name = "Петр Петров" }
+            new Patient { Id = 1, Name = "Bob Bdgk" },
+            new Patient { Id = 2, Name = "Kate Nldmgl" }
         };
 
         public ActionResult Index()
